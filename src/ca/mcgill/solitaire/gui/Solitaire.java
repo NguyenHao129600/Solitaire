@@ -56,7 +56,20 @@ public class Solitaire extends Application {
 	 * @param pArgs This program takes no argument.
 	 */
 	public static void main(String[] pArgs) {
-		launch(pArgs);
+		int configuration = 1;
+		if (pArgs.length > 0) {
+			try {
+				configuration = Integer.parseInt(pArgs[0]);
+			} catch (NumberFormatException e) {
+				System.err.println("Usage: Solitaire [configuration 1-4]");
+				return;
+			}
+		}
+		if (configuration < 1 || configuration > 4) {
+			System.err.println("Usage: Solitaire [configuration 1-4]");
+			return;
+		}
+		launch(new String[] { String.valueOf(configuration) });
 	}
 
 	@Override
@@ -69,7 +82,7 @@ public class Solitaire extends Application {
 		root.setVgap(MARGIN_OUTER);
 		root.setPadding(new Insets(MARGIN_OUTER));
 
-		final GameModel model = new GameModel(new GreedyPlayingStrategy());
+		final GameModel model = new GameModel(new GreedyPlayingStrategy(), Integer.parseInt(getParameters().getRaw().isEmpty() ? "1" : getParameters().getRaw().get(0)));
 		DeckView deckView = new DeckView(model);
 		DiscardPileView discardPileView = new DiscardPileView(model);
 

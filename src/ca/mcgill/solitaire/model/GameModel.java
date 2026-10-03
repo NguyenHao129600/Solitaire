@@ -70,7 +70,7 @@ public final class GameModel implements GameModelView {
 		}
 	};
 
-	private final Deck aDeck = new Deck();
+	private final Deck aDeck;
 	private final Stack<Move> aMoves = new Stack<>();
 	private final CardStack aDiscard = new CardStack();
 	private final Foundations aFoundations = new Foundations();
@@ -85,8 +85,19 @@ public final class GameModel implements GameModelView {
 	 * @pre pPlayingStrategy != null
 	 */
 	public GameModel(PlayingStrategy pPlayingStrategy) {
+		this(pPlayingStrategy, 1);
+	}
+
+	/**
+	 * Creates a new game model using a selected deck configuration.
+	 *
+	 * @param pPlayingStrategy The strategy to use for auto-play.
+	 * @param pConfiguration The predetermined deck configuration to use.
+	 */
+	public GameModel(PlayingStrategy pPlayingStrategy, int pConfiguration) {
 		assert pPlayingStrategy != null;
 		aPlayingStrategy = pPlayingStrategy;
+		aDeck = new Deck(pConfiguration);
 		reset();
 	}
 
